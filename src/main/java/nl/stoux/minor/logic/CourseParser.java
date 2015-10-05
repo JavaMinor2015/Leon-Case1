@@ -55,7 +55,6 @@ public class CourseParser {
 
                 //Read the spacer
                 String line = reader.readLine();
-                System.out.printf("Line end: '%s'%n", line);
                 if (line == null) {
                     //End of file
                     break;

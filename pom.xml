@@ -75,6 +75,13 @@
         </dependency>
         -->
 
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>2.21</version>
+        </dependency>
+
+
         <!-- Database connection | WARNING: Install jars first -->
         <dependency>
             <groupId>com.oracle</groupId>
