@@ -3,6 +3,7 @@ package nl.stoux.minor.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -12,11 +13,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CourseInstance {
 
-    private int id;
+    private Integer id;
     private Course course;
 
     /** Duration in days */
     private int duration;
-    private LocalDateTime startDate;
+    private LocalDate startDate;
+
+    public CourseInstance(Course course, int duration, LocalDate startDate) {
+        id = null;
+        this.course = course;
+        this.duration = duration;
+        this.startDate = startDate;
+    }
 
 }
