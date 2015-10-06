@@ -10,6 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Student {
 
+    private int id;
+
     private String forename;
     private String surname;
 

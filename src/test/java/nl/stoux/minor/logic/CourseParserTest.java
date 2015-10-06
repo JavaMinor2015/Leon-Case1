@@ -1,13 +1,12 @@
 package nl.stoux.minor.logic;
 
+import nl.stoux.minor.TestMixin;
 import nl.stoux.minor.domain.Course;
 import nl.stoux.minor.domain.CourseInstance;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.InputStream;
-import java.text.ParseException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -15,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Leon Stam on 5-10-2015.
  */
-public class CourseParserTest {
+public class CourseParserTest implements TestMixin {
 
     private static final String CORRECT = "correct.txt";
     private static final String EXTRA_LINE = "extra_line.txt";
@@ -89,7 +88,7 @@ public class CourseParserTest {
 
 
     private InputStream getTextResource(String file) {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream("courseparser/" + file);
+        return getTestResource("CourseParser/" + file);
     }
 
 

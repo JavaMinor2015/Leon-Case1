@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CourseInstance {
 
-    private Integer id;
+    private int id;
     private Course course;
 
     /** Duration in days */
@@ -21,7 +21,7 @@ public class CourseInstance {
     private LocalDate startDate;
 
     public CourseInstance(Course course, int duration, LocalDate startDate) {
-        id = null;
+        id = -1;
         this.course = course;
         this.duration = duration;
         this.startDate = startDate;
