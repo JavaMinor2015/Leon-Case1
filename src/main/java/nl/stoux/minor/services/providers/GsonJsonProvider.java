@@ -3,6 +3,8 @@ package nl.stoux.minor.services.providers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import lombok.Getter;
+import nl.stoux.minor.domain.output.HateoasSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +33,12 @@ public class GsonJsonProvider implements MessageBodyReader<Object>, MessageBodyW
 
     private static final String UTF8 = "UTF-8";
 
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    @Getter
+    private static Gson gson = new GsonBuilder()
+            .registerTypeHierarchyAdapter(HateoasSupport.class, new GsonHateoasAdapter())
+            .setPrettyPrinting()
+            .disableHtmlEscaping()
+            .create();
     private static Logger logger = LogManager.getLogger(GsonJsonProvider.class.getSimpleName());
 
     @Override
@@ -44,7 +51,6 @@ public class GsonJsonProvider implements MessageBodyReader<Object>, MessageBodyW
     @Override
     public Object readFrom(Class<Object> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         try (InputStreamReader streamReader = new InputStreamReader(inputStream, UTF8)) {
-            logger.debug(type);
             return gson.fromJson(streamReader, type);
         } catch (JsonSyntaxException e) {
             logger.warn(e);

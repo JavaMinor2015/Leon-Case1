@@ -2,17 +2,19 @@ package nl.stoux.minor.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import nl.stoux.minor.domain.output.HateoasSupport;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Created by Leon Stam on 5-10-2015.
  */
 @Getter
 @AllArgsConstructor
-public class CourseInstance {
+public class CourseInstance implements HateoasSupport {
 
+    @Setter
     private int id;
     private Course course;
 
@@ -27,4 +29,8 @@ public class CourseInstance {
         this.startDate = startDate;
     }
 
+    @Override
+    public Object getIdentifier() {
+        return course.getIdentifier() + "/" + id;
+    }
 }

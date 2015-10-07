@@ -38,12 +38,18 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Lombok -->
+        <!-- Helpers -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.6</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
         </dependency>
 
         <!-- JSON -->
@@ -93,6 +99,12 @@
             <groupId>com.oracle</groupId>
             <artifactId>i18n</artifactId>
             <version>6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.21</version>
         </dependency>
 
         <!-- Testing -->
