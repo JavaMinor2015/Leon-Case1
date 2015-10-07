@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -18,6 +19,7 @@ public class CourseParserTest implements TestMixin {
 
     private static final String CORRECT = "correct.txt";
     private static final String EXTRA_LINE = "extra_line.txt";
+    private static final String INCORRECT = "incorrect.txt";
 
     @Before
     public void setup() {
@@ -84,6 +86,20 @@ public class CourseParserTest implements TestMixin {
         //Assert
         assertEquals(result.getNewCourses().size(), 1);
         assertEquals(result.getNewInstances().size(), 1);
+    }
+
+    @Test
+    public void incorrect() throws Exception {
+        //Arrange
+        InputStream input = getTextResource(INCORRECT);
+
+        //Act
+        try {
+            CourseParser.ParseResult result = new CourseParser(input, new HashSet<>()).getResult();
+            fail();
+        } catch (ParseException e) {
+            assertEquals(16, e.getErrorOffset());
+        }
     }
 
 

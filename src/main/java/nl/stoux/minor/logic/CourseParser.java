@@ -5,10 +5,8 @@ import lombok.Getter;
 import nl.stoux.minor.domain.Course;
 import nl.stoux.minor.domain.CourseInstance;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +20,8 @@ public class CourseParser {
     private InputStream input;
     private HashMap<String, Course> courses;
     private DateTimeFormatter dateFormatter;
+
+    private int currentLine = 0;
 
     @Getter
     private ParseResult result;
@@ -57,7 +57,7 @@ public class CourseParser {
                 newInstances.add(blockResult.getNewInstance());
 
                 //Read the spacer
-                String line = reader.readLine();
+                String line = readLine(reader);
                 if (line == null) {
                     //End of file
                     break;
@@ -73,12 +73,12 @@ public class CourseParser {
     private Optional<String[]> readBlock(BufferedReader reader) throws IOException, ParseException {
         String[] block = new String[4];
         for (int i = 0; i < 4; i++) {
-            String line = reader.readLine();
+            String line = readLine(reader);
             if (line == null) {
                 if (i == 0) {
                     return Optional.empty();
                 } else {
-                    throw new ParseException("Unexpected end of file", 0);
+                    throw new ParseException("Unexpected end of file", currentLine);
                 }
             }
             block[i] = line;
@@ -88,8 +88,8 @@ public class CourseParser {
 
     private BlockResult parseBlock(String[] block) throws ParseException {
         //Course info
-        String title = block[0].replace("Titel: ", "");
-        String code = block[1].replace("Cursuscode: ", "");
+        String title = validateAndReplace(block, 0, "Titel: ");
+        String code = validateAndReplace(block, 1, "Cursuscode: ");
 
         //=> Find it
         Course course;
@@ -103,13 +103,21 @@ public class CourseParser {
             newCourse = Optional.of(course);
         }
 
-
         //Instance info
-        int duration = Integer.parseInt(block[2].replace("Duur: ", "").replace(" dagen", ""));
-        LocalDate date = LocalDate.parse(block[3].replace("Startdatum: ", ""), dateFormatter);
+        block[2] = block[2].replace(" dagen", "");
+        int duration = Integer.parseInt(validateAndReplace(block, 2, "Duur: "));
+        LocalDate date = LocalDate.parse(validateAndReplace(block, 3, "Startdatum: "), dateFormatter);
         CourseInstance instance = new CourseInstance(course, duration, date);
 
         return new BlockResult(newCourse, instance);
+    }
+
+    private String validateAndReplace(String[] block, int index, String findReplace) throws ParseException {
+        String line = block[index];
+        if (!line.contains(findReplace)) {
+            throw new ParseException("Invalid line: '" + findReplace.replace(": ", "") + "'", currentLine - (3 - index));
+        }
+        return block[index].replace(findReplace, "");
     }
 
     @Getter @AllArgsConstructor
@@ -122,6 +130,11 @@ public class CourseParser {
     public class ParseResult {
         Collection<Course> newCourses;
         Collection<CourseInstance> newInstances;
+    }
+
+    private String readLine(BufferedReader reader) throws IOException {
+        currentLine++;
+        return reader.readLine();
     }
 
 }

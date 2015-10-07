@@ -91,7 +91,6 @@ public class CourseService extends BaseService {
     @Path("/ImportCourses")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response importCourses(@FormDataParam("file") InputStream fileInputStream) {
-        logger.info("Oh boy");
         if (fileInputStream == null) {
             return badRequest();
         }

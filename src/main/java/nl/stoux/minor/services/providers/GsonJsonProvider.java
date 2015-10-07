@@ -54,8 +54,8 @@ public class GsonJsonProvider implements MessageBodyReader<Object>, MessageBodyW
             return gson.fromJson(streamReader, type);
         } catch (JsonSyntaxException e) {
             logger.warn(e);
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class GsonJsonProvider implements MessageBodyReader<Object>, MessageBodyW
 
     @Override
     public boolean isWriteable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return  true;
+        return true;
     }
 
     @Override

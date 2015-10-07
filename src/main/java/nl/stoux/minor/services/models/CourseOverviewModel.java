@@ -1,5 +1,6 @@
 package nl.stoux.minor.services.models;
 
+import lombok.Getter;
 import nl.stoux.minor.domain.CourseInstance;
 import nl.stoux.minor.domain.Student;
 
@@ -11,7 +12,7 @@ import java.util.Collection;
 public class CourseOverviewModel implements Comparable<CourseOverviewModel> {
 
     private CourseInstance courseInstance;
-    private int nrOfStudents;
+    @Getter private int nrOfStudents;
     private Collection<Student> students;
 
     public CourseOverviewModel(CourseInstance courseInstance, Collection<Student> students) {

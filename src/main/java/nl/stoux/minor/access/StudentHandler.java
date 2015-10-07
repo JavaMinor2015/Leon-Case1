@@ -41,9 +41,9 @@ public class StudentHandler implements AutoCloseable {
         prep.setInt(1, id);
         ResultSet rs = prep.executeQuery();
         if (rs.next()) {
-            Optional<Company> company = findCompany(rs.getInt(4));
+            Optional<Company> company = findCompany(rs.getInt("company_id"));
             if (company.isPresent()) {
-                return Optional.of(new Student(id, rs.getString(1), rs.getString(2), rs.getString(3), company.get()));
+                return Optional.of(new Student(id, rs.getString("forename"), rs.getString("surname"), rs.getString("branch"), company.get()));
             }
         }
         return Optional.empty();
@@ -111,7 +111,7 @@ public class StudentHandler implements AutoCloseable {
         prep.setInt(1, id);
         ResultSet rs = prep.executeQuery();
         if (rs.next()) {
-            return Optional.of(new Company(id, rs.getString(1), rs.getInt(2)));
+            return Optional.of(new Company(id, rs.getString("name"), rs.getInt("offer_number")));
         } else {
             return Optional.empty();
         }
@@ -165,7 +165,7 @@ public class StudentHandler implements AutoCloseable {
 
         Multimap<String, Integer> codeToIds = ArrayListMultimap.create();
         while(rs.next()) {
-            codeToIds.put(rs.getString(2), rs.getInt(1));
+            codeToIds.put(rs.getString("course_instances.course_code"), rs.getInt("course_instances.id"));
         }
 
         return codeToIds;

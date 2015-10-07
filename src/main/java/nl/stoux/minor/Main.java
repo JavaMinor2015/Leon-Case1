@@ -1,6 +1,7 @@
 package nl.stoux.minor;
 
 import nl.stoux.minor.data.ConnectionManager;
+import nl.stoux.minor.data.DataSourceProvider;
 import nl.stoux.minor.data.sources.MySqlDataSourceProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +29,7 @@ public class Main implements ServletContextListener {
 
     private ConnectionManager setupConnectionManager() {
         try {
-            return new ConnectionManager(new MySqlDataSourceProvider());
+            return new ConnectionManager(getProvider());
         } catch (SQLException e) {
             logger.fatal(e);
             //TODO: Stop the servlet, somehow?
@@ -50,6 +51,10 @@ public class Main implements ServletContextListener {
      */
     public static Connection getConnection() throws SQLException {
         return manager.getConnection();
+    }
+
+    protected DataSourceProvider getProvider() {
+        return new MySqlDataSourceProvider();
     }
 
 }

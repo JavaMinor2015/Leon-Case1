@@ -59,7 +59,8 @@ public class CourseHandler implements AutoCloseable {
 
     private Map<String, Course> getCourses(Collection<String> courseCodes) throws SQLException{
         Map<String, Course> map = new HashMap<>();
-        ResultSet rs = connection.createStatement().executeQuery("SELECT code, title FROM courses WHERE code IN ('" + Joiner.on("', '").join(courseCodes) + "')");
+        PreparedStatement prep = connection.prepareStatement("SELECT code, title FROM courses WHERE code IN ('" + Joiner.on("', '").join(courseCodes) + "')");
+        ResultSet rs = prep.executeQuery();
         while(rs.next()) {
             map.put(rs.getString("code"), getCourse(rs));
         }
