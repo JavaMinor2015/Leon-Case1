@@ -156,7 +156,7 @@ public class CourseService extends BaseService {
                     "overview", models
             ));
         } catch (DateTimeParseException e) {
-            return badRequest();
+            return badRequest("Invalid date");
         } catch (SQLException e) {
             logger.error(e);
             return serverError();

@@ -22,7 +22,7 @@ public class CourseOverviewModel implements Comparable<CourseOverviewModel> {
 
     @Override
     public int compareTo(CourseOverviewModel o) {
-        return courseInstance.getStartDate().compareTo(o.courseInstance.getStartDate());
+        return courseInstance.compareTo(o.courseInstance);
     }
 
 }

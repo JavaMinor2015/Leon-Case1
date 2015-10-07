@@ -1,11 +1,14 @@
 package nl.stoux.minor.access;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import nl.stoux.minor.Main;
 import nl.stoux.minor.domain.Company;
 import nl.stoux.minor.domain.CourseInstance;
 import nl.stoux.minor.domain.Student;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -141,6 +144,31 @@ public class StudentHandler implements AutoCloseable {
         prep.setInt(1, student.getId());
         prep.setInt(2, instance.getId());
         prep.executeUpdate();
+    }
+
+    /**
+     * Get all Course instances this Student is enrolled, that start after a certain date
+     * @param student The student
+     * @param fromStartDate Start date (inclusive)
+     * @return Map /w Course Code -> Course IDs
+     * @throws SQLException
+     */
+    public Multimap<String, Integer> enrolledIn(Student student, LocalDate fromStartDate) throws SQLException {
+        PreparedStatement prep = connection.prepareStatement(
+                "SELECT course_instances.id, course_instances.course_code FROM course_enrolment " +
+                    "LEFT OUTER JOIN course_instances ON course_instances.id = course_enrolment.course_instance_id " +
+                "WHERE course_instances.start_date >= ? AND course_enrolment.student_id = ?"
+        );
+        prep.setDate(1, Date.valueOf(fromStartDate));
+        prep.setInt(2, student.getId());
+        ResultSet rs = prep.executeQuery();
+
+        Multimap<String, Integer> codeToIds = ArrayListMultimap.create();
+        while(rs.next()) {
+            codeToIds.put(rs.getString(2), rs.getInt(1));
+        }
+
+        return codeToIds;
     }
 
 

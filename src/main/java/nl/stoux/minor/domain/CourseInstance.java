@@ -12,7 +12,7 @@ import java.time.LocalDate;
  */
 @Getter
 @AllArgsConstructor
-public class CourseInstance implements HateoasSupport {
+public class CourseInstance implements HateoasSupport, Comparable<CourseInstance> {
 
     @Setter
     private int id;
@@ -32,5 +32,15 @@ public class CourseInstance implements HateoasSupport {
     @Override
     public Object getIdentifier() {
         return course.getIdentifier() + "/" + id;
+    }
+
+    @Override
+    public int compareTo(CourseInstance o) {
+        int result = getStartDate().compareTo(o.getStartDate());
+        if (result == 0) {
+            return Integer.compare(getDuration(), o.getDuration());
+        } else {
+            return result;
+        }
     }
 }
