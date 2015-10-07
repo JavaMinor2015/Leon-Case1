@@ -2,7 +2,7 @@ package nl.stoux.minor;
 
 import nl.stoux.minor.data.ConnectionManager;
 import nl.stoux.minor.data.DataSourceProvider;
-import nl.stoux.minor.data.sources.MySqlDataSourceProvider;
+import nl.stoux.minor.data.sources.OracleDataSourceProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,7 +54,7 @@ public class Main implements ServletContextListener {
     }
 
     protected DataSourceProvider getProvider() {
-        return new MySqlDataSourceProvider();
+        return new OracleDataSourceProvider();
     }
 
 }

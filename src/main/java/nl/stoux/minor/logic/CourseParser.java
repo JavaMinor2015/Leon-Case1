@@ -5,8 +5,10 @@ import lombok.Getter;
 import nl.stoux.minor.domain.Course;
 import nl.stoux.minor.domain.CourseInstance;
 
-import java.io.*;
-import java.sql.SQLException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

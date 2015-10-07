@@ -1,7 +1,9 @@
 package nl.stoux.minor.services.providers;
 
+import nl.stoux.minor.domain.Company;
 import nl.stoux.minor.domain.Course;
 import nl.stoux.minor.domain.CourseInstance;
+import nl.stoux.minor.domain.Student;
 import nl.stoux.minor.domain.output.HateoasSupport;
 
 import java.util.HashMap;
@@ -14,11 +16,10 @@ public class UrlProvider {
     private static HashMap<Class<? extends HateoasSupport>, String> urlMap;
     static {
         urlMap = new HashMap<>();
-        //urlMap.put(Company.class, Company.URL);
+        urlMap.put(Company.class, Company.URL);
         urlMap.put(Course.class, Course.URL);
-        //urlMap.put(CourseEnrolment.class, CourseEnrolment.URL);
         urlMap.put(CourseInstance.class, Course.URL);
-        //urlMap.put(Student.class, Student.URL);
+        urlMap.put(Student.class, Student.URL);
     }
 
     public static boolean hasUrl(Class<? extends HateoasSupport> clazz) {
