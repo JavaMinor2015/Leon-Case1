@@ -30,17 +30,11 @@ public class CourseService extends BaseService {
     @GET
     @Path("/{code}")
     public Response getCourse(@PathParam("code") String code) {
-        try(CourseHandler handler = new CourseHandler()) {
-            Optional<Course> course = handler.getCourse(code);
-            if (course.isPresent()) {
-                return okResponse(course.get());
-            } else {
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
-        } catch (SQLException e) {
-            logger.warn(e);
-            return serverError();
-        }
+        return get(
+            CourseHandler::new,
+            CourseHandler::getCourse,
+            code
+        );
     }
 
     @GET
